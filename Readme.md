@@ -1,9 +1,9 @@
 # Programmierübung 2
 
-## Ziel des Projekts
+## Einstieg
 Es soll anhand von einer CSV-Datei eine Leistungskurve erstellt und geplottet werden.
 
-## Umgang mit PDM
+### Umgang mit PDM
 - Zum aufsetzen eines Projektes einmalig 'pdm init'
 - Zum installieren eines Projektes nach dem Klonen 'pdm install'
 - Zum hinzufügen eines Pakets 'pdm add <packetname>'
@@ -12,7 +12,35 @@ Es soll anhand von einer CSV-Datei eine Leistungskurve erstellt und geplottet we
 
 ## Nutzung des Projektes
 
-In ['activity.csv'](activity.csv) liegen die Daten.
-
+In ['activity.csv'](activity.csv) liegen die Daten: Daraus wurde diese Graphik erzeugt.
 ![Image](./figures/fig.png)
 
+# EKG-Analyse App
+
+## Funktionsumfang
+
+- Die App ermöglicht die Analyse von EKG-Daten,
+- Dabei werden folgende Use Cases unterstützt:
+
+![](docs/ulm_usecase.svg)
+
+### Funktionelle Anforderungen
+- [ ] Als Nutzer:in möchte ich eine Versuchsperson auswählen und die relevanten Daten angezeigt bekommen
+- [ ] Als Nutzer:in möchte ich mir das Bild einer Versuchsperson anzeigen lassen, um mich zu vergewissern, dass ich die richtige Person anzeige (Termin 2)
+- [ ] Als Nutzer:in möchte ich die zu einer Versuchsperson gehörenden EKG Datensätze auswählen können (sofern es mehrere gibt)
+- [ ] Als Nutzer:in möchte ich die EKG-Daten einer Versuchsperson als Grafik anzeigen lassen (Termin 3)
+- [ ] Als Nutzer:in möchte ich mir den Durchschnittspuls einer Versuchsperson als Zahl anzeigen lassen (Termin 4)
+
+
+## Implementierung (Pflichtenheft - WIE)
+### Ablaufdiagramme
+
+Die User Journey wird in einem Ablaufdiagramm dargestellt:
+
+![](docs/activity_diagramm.svg)
+
+
+## Anwendung der App
+
+1. Sicherstellen, dass virtuelle Umbgebunb aktiviert ist ".venv/Script/activate"
+2. Abhängigkeiten installieren `streamlit run main.py`
