@@ -4,3 +4,4 @@ __pycache__/
 .pdm_cache/
 .vscode
 .pyproject.toml
+.pdm-python
