@@ -5,7 +5,7 @@ description = "Default template for PDM package"
 authors = [
     {name = "Moritz"},
 ]
-dependencies = ["numpy>=2.2.5", "matplotlib>=3.10.1", "streamlit>=1.45.1"]
+dependencies = ["numpy>=2.2.5", "matplotlib>=3.10.1", "streamlit>=1.45.1", "jupyter>=1.1.1", "plotly>=6.1.2"]
 requires-python = "==3.12.*"
 readme = "README.md"
 license = {text = "MIT"}
