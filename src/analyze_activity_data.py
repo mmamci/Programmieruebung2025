@@ -81,80 +81,96 @@ df_groups[["HeartRate", "PowerOriginal"]]
 
 # %%
 
+def Zeit_Leistung_pro_Zone():
+
+    zeit_pro_zone = dataframe.groupby("Zone").agg(
+        Zeit_Sekunden=("Zone", "count"),  # Zählt die Zeilen pro Zone
+        Durchschnittliche_Leistung =("PowerOriginal", "mean")  # Durchschnitt von PowerOriginal
+    ).reset_index()
+
+    zeit_pro_zone["Zeit in Minuten"] = zeit_pro_zone["Zeit_Sekunden"] / 60
+
+    # Zeige das Ergebnis
+    zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]]
+
+# %%
+
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-fig = make_subplots(specs=[[{"secondary_y": True}]])
+def erstelle_plot():
 
-default_colors = [
-    "gray", "#B2DFEE", "#A2CD5A", "#EEE8AA", "#FF8247", "#CD3700",
-]
-# Alle Zonen erkennen & Farben automatisch zuordnen
-unique_zones = sorted(dataframe["Zone"].fillna("Zone 0").unique())
-zone_colors = {
-    zone: default_colors[i % len(default_colors)]
-    for i, zone in enumerate(unique_zones)
-}
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    default_colors = [
+        "gray", "#B2DFEE", "#A2CD5A", "#EEE8AA", "#FF8247", "#CD3700",
+    ]
+    # Alle Zonen erkennen & Farben automatisch zuordnen
+    unique_zones = sorted(dataframe["Zone"].fillna("Zone 0").unique())
+    zone_colors = {
+        zone: default_colors[i % len(default_colors)]
+        for i, zone in enumerate(unique_zones)
+    }
 
 
-# Power 
-fig.add_trace(
-    go.Scatter(
-        x=dataframe.index,
-        y=dataframe["PowerOriginal"],
-        name="Power (W)",
-        line=dict(color="#4169E1"),
-    ),
-    secondary_y=False,
-)
+    # Power 
+    fig.add_trace(
+        go.Scatter(
+            x=dataframe.index,
+            y=dataframe["PowerOriginal"],
+            name="Power (W)",
+            line=dict(color="#4169E1"),
+        ),
+        secondary_y=False,
+    )
 
-# Herzfrequenz in Segmenten zeichnen
-for i in range(len(dataframe) - 1):
-    zone = dataframe["Zone"].iloc[i]
-    x_vals = [dataframe.index[i], dataframe.index[i + 1]]
-    y_vals = [dataframe["HeartRate"].iloc[i], dataframe["HeartRate"].iloc[i + 1]]
+    # Herzfrequenz in Segmenten zeichnen
+    for i in range(len(dataframe) - 1):
+        zone = dataframe["Zone"].iloc[i]
+        x_vals = [dataframe.index[i], dataframe.index[i + 1]]
+        y_vals = [dataframe["HeartRate"].iloc[i], dataframe["HeartRate"].iloc[i + 1]]
     
-    fig.add_trace(
-        go.Scatter(
-            x = x_vals,
-            y = y_vals,
-            mode = "lines",
-            line = dict(color=zone_colors.get(zone, "black"), width=2),
-            showlegend = False,
-            yaxis = "y2"
+        fig.add_trace(
+            go.Scatter(
+                x = x_vals,
+                y = y_vals,
+                mode = "lines",
+                line = dict(color=zone_colors.get(zone, "black"), width=2),
+                showlegend = False,
+                yaxis = "y2"
+            )
         )
+
+    # Farblegende erzeugen
+    for zone_name, color in zone_colors.items():
+        fig.add_trace(
+            go.Scatter(
+                x = [None], y = [None],
+                mode = "lines",
+                line = dict(color=color, width=2),
+                name = zone_name
+            )
+        )
+
+    # Achsen-Einstellungen
+    hr_min = dataframe["HeartRate"].min()
+    hr_max = dataframe["HeartRate"].max()
+
+    fig.update_layout(
+        xaxis_title = "Zeit",
+        yaxis_title = "Watt",
+        yaxis2 = dict(
+            title = "Herzfrequenz",
+            overlaying = "y",
+            side = "right",
+        ),
+
+        width = 700,
+        height = 500,
+        legend = dict(orientation="v", x=1.1, y=1)
     )
 
-# Farblegende erzeugen
-for zone_name, color in zone_colors.items():
-    fig.add_trace(
-        go.Scatter(
-            x = [None], y = [None],
-            mode = "lines",
-            line = dict(color=color, width=2),
-            name = zone_name
-        )
-    )
-
-# Achsen-Einstellungen
-hr_min = dataframe["HeartRate"].min()
-hr_max = dataframe["HeartRate"].max()
-
-fig.update_layout(
-    xaxis_title = "Zeit",
-    yaxis_title = "Watt",
-    yaxis2 = dict(
-        title = "Herzfrequenz",
-        overlaying = "y",
-        side = "right",
-    ),
-
-    width = 700,
-    height = 500,
-    legend = dict(orientation="v", x=1.1, y=1)
-)
-
-fig.show()
+    fig.show()
 
 
 
