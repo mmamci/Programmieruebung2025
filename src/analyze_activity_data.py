@@ -1,3 +1,4 @@
+#%% Zelle 1
 import pandas as pd
 
 import plotly.graph_objects as go
@@ -30,7 +31,8 @@ class ActivityData:
         print(self.dataframe["High Power"].sum())
         print(self.dataframe["High Power"].value_counts())
 
-        self.dataframe["Zone"] = None
+#%%
+dataframe["Zone"] = None
 
         print(self.dataframe["HeartRate"].max())
 
@@ -200,3 +202,5 @@ class ActivityPlot:
 
 
 
+
+# %%
