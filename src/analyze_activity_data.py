@@ -1,38 +1,41 @@
+#%% Zelle 1
 import pandas as pd
 
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+dataframe = pd.read_csv("data/activities/activity.csv")
+dataframe.index
 
-class ActivityData:
-    def __init__(self):
-        self.dataframe = pd.read_csv("data/activities/activity.csv")
-        
-    def print_key_values(self):
-        self.dataframe.index
+# %%
 
-        self.dataframe["HeartRate"].min()
-        self.dataframe["HeartRate"].max()
-        self.dataframe["HeartRate"].mean()
-        df_statistics = self.dataframe[["HeartRate" , "PowerOriginal"]].describe()
-        df_statistics
+dataframe["HeartRate"].min()
+dataframe["HeartRate"].max()
+dataframe["HeartRate"].mean()
+df_statistics = dataframe[["HeartRate" , "PowerOriginal"]].describe()
+df_statistics
 
-        self.dataframe["PowerOriginal"].mean()
-        self.dataframe["PowerOriginal"].max()
+# %%
 
-        self.dataframe["PowerOriginal"].plot()
+dataframe["PowerOriginal"].mean()
+dataframe["PowerOriginal"].max()
 
-        # Wie lange mehr als 300 Watt?
+#%%
 
-        self.dataframe["PowerOriginal"] > 300
+dataframe["PowerOriginal"].plot()
 
-        self.dataframe["High Power"] = self.dataframe["PowerOriginal"] > 300
-        self.dataframe["High Power"].sum()
-        self.dataframe["High Power"].value_counts()
+# %% Wie lange mehr als 300 Watt?
 
-        self.dataframe["Zone"] = None
+dataframe["PowerOriginal"] > 300
 
-        hr_max = self.dataframe["HeartRate"].max()
-        hr_max
+dataframe["High Power"] = dataframe["PowerOriginal"] > 300
+dataframe["High Power"].sum()
+dataframe["High Power"].value_counts()
+
+#%%
+dataframe["Zone"] = None
+
+hr_max = dataframe["HeartRate"].max()
+hr_max
+
+# %%
 
 untergrenzen_zonen = {}
 
@@ -44,13 +47,13 @@ for faktor in range(50, 100, 10):
 
 untergrenzen_zonen
 
-# Füge eine neue Splate Zone hinzu, die die Zone basierend auf der Herzfrequenz angibt
+# %% Füge eine neue Splate Zone hinzu, die die Zone basierend auf der Herzfrequenz angibt
 
 list_zone = []
 
-self.dataframe["Zone"] = None
+dataframe["Zone"] = None
 
-for index, row in self.dataframe.iterrows():
+for index, row in dataframe.iterrows():
     #print(row["HeartRate"])
     current_hr = row["HeartRate"]
 
@@ -67,24 +70,32 @@ for index, row in self.dataframe.iterrows():
     else:
         list_zone.append("Zone 0")
 
-self.dataframe["Zone"] = list_zone   
-self.dataframe["Zone"].value_counts()
+dataframe["Zone"] = list_zone   
+dataframe["Zone"].value_counts()
 
-df_groups = self.dataframe.groupby("Zone").mean()
+
+# %%
+
+df_groups = dataframe.groupby("Zone").mean()
 df_groups[["HeartRate", "PowerOriginal"]]
+
+# %%
 
 def Zeit_Leistung_pro_Zone():
 
-    zeit_pro_zone = self.dataframe.groupby("Zone").agg(
+    zeit_pro_zone = dataframe.groupby("Zone").agg(
         Zeit_Sekunden=("Zone", "count"),  # Zählt die Zeilen pro Zone
         Durchschnittliche_Leistung =("PowerOriginal", "mean")  # Durchschnitt von PowerOriginal
     ).reset_index()
 
     zeit_pro_zone["Zeit in Minuten"] = zeit_pro_zone["Zeit_Sekunden"] / 60
 
-    # Zeige das Ergebnis
-    zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]]
+    return zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]]
 
+# %%
+
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 def erstelle_plot():
 
@@ -94,7 +105,7 @@ def erstelle_plot():
         "gray", "#B2DFEE", "#A2CD5A", "#EEE8AA", "#FF8247", "#CD3700",
     ]
     # Alle Zonen erkennen & Farben automatisch zuordnen
-    unique_zones = sorted(self.dataframe["Zone"].fillna("Zone 0").unique())
+    unique_zones = sorted(dataframe["Zone"].fillna("Zone 0").unique())
     zone_colors = {
         zone: default_colors[i % len(default_colors)]
         for i, zone in enumerate(unique_zones)
@@ -104,8 +115,8 @@ def erstelle_plot():
     # Power 
     fig.add_trace(
         go.Scatter(
-            x=self.dataframe.index,
-            y=self.dataframe["PowerOriginal"],
+            x=dataframe.index,
+            y=dataframe["PowerOriginal"],
             name="Power (W)",
             line=dict(color="#4169E1"),
         ),
@@ -113,10 +124,10 @@ def erstelle_plot():
     )
 
     # Herzfrequenz in Segmenten zeichnen
-    for i in range(len(self.dataframe) - 1):
-        zone = self.dataframe["Zone"].iloc[i]
-        x_vals = [self.dataframe.index[i], self.dataframe.index[i + 1]]
-        y_vals = [self.dataframe["HeartRate"].iloc[i], self.dataframe["HeartRate"].iloc[i + 1]]
+    for i in range(len(dataframe) - 1):
+        zone = dataframe["Zone"].iloc[i]
+        x_vals = [dataframe.index[i], dataframe.index[i + 1]]
+        y_vals = [dataframe["HeartRate"].iloc[i], dataframe["HeartRate"].iloc[i + 1]]
     
         fig.add_trace(
             go.Scatter(
@@ -141,8 +152,8 @@ def erstelle_plot():
         )
 
     # Achsen-Einstellungen
-    hr_min = self.dataframe["HeartRate"].min()
-    hr_max = self.dataframe["HeartRate"].max()
+    hr_min = dataframe["HeartRate"].min()
+    hr_max = dataframe["HeartRate"].max()
 
     fig.update_layout(
         xaxis_title = "Zeit",
@@ -158,4 +169,8 @@ def erstelle_plot():
         legend = dict(orientation="v", x=1.1, y=1)
     )
 
-    fig.show()
+    return fig
+
+
+
+# %%
