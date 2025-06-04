@@ -7,56 +7,55 @@ class ActivityData:
     def __init__(self, path = "data/activities/activity.csv"):
         self.dataframe = pd.read_csv(path)
 
-        self.print_key_values()
+        # self.print_key_values()
         self.define_zones()
-
-        
+   
     def print_key_values(self):
-        self.dataframe.index
+        print(self.dataframe.index)
 
-        self.dataframe["HeartRate"].min()
-        self.dataframe["HeartRate"].max()
-        self.dataframe["HeartRate"].mean()
+        print(self.dataframe["HeartRate"].min())
+        print(self.dataframe["HeartRate"].max())
+        print(self.dataframe["HeartRate"].mean())
         df_statistics = self.dataframe[["HeartRate" , "PowerOriginal"]].describe()
-        df_statistics
+        print(df_statistics)
 
-        self.dataframe["PowerOriginal"].mean()
-        self.dataframe["PowerOriginal"].max()
+        print(self.dataframe["PowerOriginal"].mean())
+        print(self.dataframe["PowerOriginal"].max())
 
-        self.dataframe["PowerOriginal"].plot()
+        print(self.dataframe["PowerOriginal"].plot())
 
-        # Wie lange mehr als 300 Watt?
-
-        self.dataframe["PowerOriginal"] > 300
+        print(self.dataframe["PowerOriginal"] > 300)
 
         self.dataframe["High Power"] = self.dataframe["PowerOriginal"] > 300
-        self.dataframe["High Power"].sum()
-        self.dataframe["High Power"].value_counts()
+        print(self.dataframe["High Power"].sum())
+        print(self.dataframe["High Power"].value_counts())
 
         self.dataframe["Zone"] = None
 
         print(self.dataframe["HeartRate"].max())
 
-    def define_zones(self):
+    def define_zones(self, heartrate_max = None):
         untergrenzen_zonen = {}
 
+        if heartrate_max == None:
+            heartrate_max = self.dataframe["HeartRate"].max()
+        else:
+            heartrate_max = int(heartrate_max)
+        
         zone = 1
-        hr_max = self.dataframe["HeartRate"].max()
         for faktor in range(50, 100, 10):
         
-            untergrenzen_zonen[f"Zone {zone}"] = float(hr_max * faktor/100)
+            untergrenzen_zonen[f"Zone {zone}"] = float(heartrate_max * faktor/100)
             zone = zone + 1
 
         untergrenzen_zonen
 
         # Füge eine neue Splate Zone hinzu, die die Zone basierend auf der Herzfrequenz angibt
-
         list_zone = []
 
         self.dataframe["Zone"] = None
 
         for index, row in self.dataframe.iterrows():
-            #print(row["HeartRate"])
             current_hr = row["HeartRate"]
 
             if current_hr >= untergrenzen_zonen["Zone 5"]:
@@ -96,7 +95,7 @@ class ActivityData:
 
         self.zeit_pro_zone["Zeit in Minuten"] = self.zeit_pro_zone["Zeit_Sekunden"] / 60
 
-        return self.zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]]
+        return self.zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]].round(2)
 
 class ActivityPlot:
     def __init__(self, activity_data):
@@ -104,21 +103,6 @@ class ActivityPlot:
 
         self.fig = make_subplots(specs=[[{"secondary_y": True}]])
 
-        self.default_colors = [
-            "gray", "#B2DFEE", "#A2CD5A", "#EEE8AA", "#FF8247", "#CD3700",
-        ]
-        
-        # Alle Zonen erkennen & Farben automatisch zuordnen
-        unique_zones = sorted(self.activity_data["Zone"].fillna("Zone 0").unique())
-        self.zone_colors = {
-            zone: self.default_colors[i % len(self.default_colors)]
-            for i, zone in enumerate(unique_zones)
-        }
-
-        self.add_traces()
-        self.divide_traces()
-        self.create_legend()
-        self.create_axis()
         
     def add_traces(self):
         self.fig.add_trace(
@@ -130,6 +114,18 @@ class ActivityPlot:
             ),
             secondary_y=False,
         )
+    
+    def zone_colors(self):
+        self.default_colors = [
+            "gray", "#B2DFEE", "#A2CD5A", "#EEE8AA", "#FF8247", "#CD3700",
+        ]
+        
+        # Alle Zonen erkennen & Farben automatisch zuordnen
+        unique_zones = sorted(self.activity_data["Zone"].fillna("Zone 0").unique())
+        self.zone_colors = {
+            zone: self.default_colors[i % len(self.default_colors)]
+            for i, zone in enumerate(unique_zones)
+        }
     
     def divide_traces(self):
         for i in range(len(self.activity_data) - 1):
@@ -179,9 +175,6 @@ class ActivityPlot:
             legend = dict(orientation="v", x=1.1, y=1)
         )
 
-
-    def get_plot(self):
-        # Achsen-Einstellungen
         self.fig.update_layout(
             xaxis_title = "Zeit",
             yaxis_title = "Watt",
@@ -195,6 +188,13 @@ class ActivityPlot:
             height = 500,
             legend = dict(orientation="v", x=1.1, y=1)
         )
+
+    def create_plot(self):
+        self.add_traces()
+        self.zone_colors()
+        self.divide_traces()
+        self.create_legend()
+        self.create_axis()
 
         return self.fig
 

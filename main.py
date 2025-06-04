@@ -21,10 +21,15 @@ st.image(get_person_image_by_name(st.session_state.selected_person), caption = s
 
 activity_data = ActivityData()
 
+heartrate_input = st.text_input("Zeit in Zone nach Herzfrequenz")
+
+if heartrate_input:
+    activity_data.define_zones(heartrate_input)
+
 st.write("### Zeit und Leistung pro Herzfrequenz-Zone")
 st.dataframe(activity_data.get_Zeitleistung_pro_Zone())
 
 plot = ActivityPlot(activity_data.dataframe)
 
 st.write("### Leistungs- und Herzfrequenzverlauf")
-st.plotly_chart(plot.get_plot(), use_container_width=True)
+st.plotly_chart(plot.create_plot(), use_container_width=True)

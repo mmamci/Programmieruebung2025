@@ -41,6 +41,8 @@ Die User Journey wird in einem Ablaufdiagramm dargestellt:
 
 
 ## Anwendung der App
-
-1. Sicherstellen, dass virtuelle Umbgebunb aktiviert ist ".venv/Script/activate"
+1. Sicherstellen, dass die virtuelle Umgebung aktiviert ist ".venv/Script/activate"
 2. Abhängigkeiten installieren `streamlit run main.py`
+
+### Alternativ
+Alternativ kann auch die Datei [run_server.py](run_server.py) ausgeführt werden. (Windows only).
