@@ -96,6 +96,10 @@ class ActivityData:
         self.zeit_pro_zone["Zeit in Minuten"] = self.zeit_pro_zone["Zeit_Sekunden"] / 60
 
         return self.zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]].round(2)
+    
+    # Julians verbesserung
+    def create_plot(self):
+        self.plot = ActivityPlot(self.)
 
 class ActivityPlot:
     def __init__(self, activity_data):
