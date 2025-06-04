@@ -1,7 +1,7 @@
 #%% Zelle 1
 import pandas as pd
 
-dataframe = pd.read_csv("../data/activities/activity.csv")
+dataframe = pd.read_csv("data/activities/activity.csv")
 dataframe.index
 
 # %%

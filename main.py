@@ -20,7 +20,7 @@ st.write(st.session_state.selected_person)
 st.image(get_person_image_by_name(st.session_state.selected_person), caption = st.session_state.selected_person)
 
 st.write("### Zeit und Leistung pro Herzfrequenz-Zone")
-st.dataframe(Zeit_Leistung_pro_Zone)
+st.dataframe(Zeit_Leistung_pro_Zone())
 
 st.write("### Leistungs- und Herzfrequenzverlauf")
-st.plotly_chart(erstelle_plot, use_container_width=True)
+st.plotly_chart(erstelle_plot(), use_container_width=True)
