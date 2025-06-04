@@ -54,6 +54,6 @@ Die User Journey wird in einem Ablaufdiagramm dargestellt:
 Alternativ kann auch die Datei [run_server.py](run_server.py) ausgeführt werden. (Windows only).
 
 ## Bilder der App
-![](docs\Personenauswahl.png)
-![](docs\ZeitInZonen.png)
-![](docs\Graph.png)
+![](docs/Personenauswahl.png)
+![](docs/ZeitInZonen.png)
+![](docs/Graph.png)
