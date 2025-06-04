@@ -94,8 +94,9 @@ class ActivityData:
             ).reset_index()
 
         self.zeit_pro_zone["Zeit in Minuten"] = self.zeit_pro_zone["Zeit_Sekunden"] / 60
-
-        return self.zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]].round(2)
+        result = self.zeit_pro_zone[["Zone", "Zeit in Minuten", "Durchschnittliche_Leistung"]].round(2)
+        result = result.rename(columns = {"Durchschnittliche_Leistung": "Durchschnittliche Leistung"})
+        return result
 
 class ActivityPlot:
     def __init__(self, activity_data):

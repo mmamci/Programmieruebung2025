@@ -26,10 +26,10 @@ In ['activity.csv'](activity.csv) liegen die Daten: Daraus wurde diese Graphik e
 
 ### Funktionelle Anforderungen
 - [ ] Als Nutzer:in möchte ich eine Versuchsperson auswählen und die relevanten Daten angezeigt bekommen
-- [ ] Als Nutzer:in möchte ich mir das Bild einer Versuchsperson anzeigen lassen, um mich zu vergewissern, dass ich die richtige Person anzeige (Termin 2)
-- [ ] Als Nutzer:in möchte ich die zu einer Versuchsperson gehörenden EKG Datensätze auswählen können (sofern es mehrere gibt)
-- [ ] Als Nutzer:in möchte ich die EKG-Daten einer Versuchsperson als Grafik anzeigen lassen (Termin 3)
-- [ ] Als Nutzer:in möchte ich mir den Durchschnittspuls einer Versuchsperson als Zahl anzeigen lassen (Termin 4)
+- [ ] Als Nutzer:in möchte ich mir das Bild einer Versuchsperson anzeigen lassen, um mich zu vergewissern, dass ich die richtige Person anzeige
+- [ ] Als Nutzer:in möchte ich die zu einer Versuchsperson gehörenden EKG Datensätze auswählen können 
+- [ ] Als Nutzer:in möchte ich die EKG-Daten einer Versuchsperson als Grafik anzeigen lassen 
+- [ ] Als Nutzer:in möchte ich mir den Durchschnittspuls einer Versuchsperson als Zahl anzeigen lassen 
 
 
 ## Implementierung (Pflichtenheft - WIE)
@@ -43,6 +43,17 @@ Die User Journey wird in einem Ablaufdiagramm dargestellt:
 ## Anwendung der App
 1. Sicherstellen, dass die virtuelle Umgebung aktiviert ist ".venv/Script/activate"
 2. Abhängigkeiten installieren `streamlit run main.py`
+3. Wählen einer Versuchsperson
+4. Eingabe der Herzfrequenz
+5. Zonen werden entsprechend der maximalen Herzfrequenz angepasst
+6. Anzeige der Zeit und der durchschnittlichen Leistung in den Zonen
+7. Anzeige des Leistungs- und Herzfrequenzverlaufs 
+
 
 ### Alternativ
 Alternativ kann auch die Datei [run_server.py](run_server.py) ausgeführt werden. (Windows only).
+
+## Bilder der App
+![](docs\Personenauswahl.png)
+![](docs\ZeitInZonen.png)
+![](docs\Graph.png)

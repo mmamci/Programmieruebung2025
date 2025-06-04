@@ -6,14 +6,11 @@ from src.analyze_activity_data import ActivityData, ActivityPlot
 if "selected_person" not in st.session_state:
     st.session_state.selected_person = "NONE"
 
-st.write("# Hello Streamlit!")
 
-st.write("# # Zweite Überschrift")
-
-st.write("This is a simple Streamlit app to demonstrate")
+st.write("# Analyse der Herzfrequenz-Zonen")
 
 
-st.session_state.selected_person = st.selectbox("Wähle eine Versuchsperson", options = get_person_names())
+st.session_state.selected_person = st.selectbox("Wählen Sie eine Versuchsperson", options = get_person_names())
 
 st.write(st.session_state.selected_person)
 
@@ -21,7 +18,7 @@ st.image(get_person_image_by_name(st.session_state.selected_person), caption = s
 
 activity_data = ActivityData()
 
-heartrate_input = st.text_input("Zeit in Zone nach Herzfrequenz")
+heartrate_input = st.text_input("Geben Sie ihre maximale Herzfrequenz ein (z.B. 180)")
 
 if heartrate_input:
     activity_data.define_zones(heartrate_input)
