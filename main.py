@@ -1,20 +1,20 @@
 import streamlit as st
 
-from src.read_data import get_person_names, get_person_image_by_name  
+from classes.person import Person
 from src.analyze_activity_data import ActivityData, ActivityPlot
 
-if "selected_person" not in st.session_state:
-    st.session_state.selected_person = "NONE"
-
+if "person_list" not in st.session_state:
+    st.session_state.person_list = Person.get_all_persons()
 
 st.write("# Analyse der Herzfrequenz-Zonen")
 
+st.session_state.selected_person = st.selectbox("Wählen Sie eine Versuchsperson", options = [person.get_full_name() for person in st.session_state.person_list])
 
-st.session_state.selected_person = st.selectbox("Wählen Sie eine Versuchsperson", options = get_person_names())
+st.session_state.selected_person = Person.get_person_object_by_full_name(st.session_state.selected_person)
 
 st.write(st.session_state.selected_person)
-
-st.image(get_person_image_by_name(st.session_state.selected_person), caption = st.session_state.selected_person)
+ 
+st.image(st.session_state.selected_person.get_picture(), caption = st.session_state.selected_person.get_full_name())
 
 activity_data = ActivityData()
 
