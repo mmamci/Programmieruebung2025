@@ -57,3 +57,7 @@ Alternativ kann auch die Datei [run_server.py](run_server.py) ausgeführt werden
 ![](docs/Personenauswahl.png)
 ![](docs/ZeitInZonen.png)
 ![](docs/Graph.png)
+
+
+## Leistungskurve
+![](docs/Leistungskurve.png)

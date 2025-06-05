@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 if __name__ == "__main__":
-    data = load_data('data/activity.csv')
+    data = load_data('data/activities/activity.csv')
     power_W = data['PowerOriginal']
     sorted_power_W = bubble_sort(power_W)
     time_s = np.array(range(len(sorted_power_W)))
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     plt.title('Leistungskurve')
     plt.xlabel('Zeit in Minuten')
     plt.ylabel('Watt')
-    #plt.show()
+    plt.show()
 
     plt.savefig("figures/fig.png")
     
