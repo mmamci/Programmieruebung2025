@@ -5,4 +5,4 @@ __pycache__/
 .vscode
 .pyproject.toml
 .pdm-python
-.vscode
+.vscode/
