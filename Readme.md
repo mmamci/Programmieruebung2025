@@ -59,4 +59,4 @@ Alternativ kann auch die Datei [run_server.py](run_server.py) ausgeführt werden
 ![](docs/Graph.png)
 
 ## Leistungskurve II
-Im source Ordner befindet sich die Datei [](src/power_algorithm.py). Diese Datei kann ausgeführt werden um eine Power-Curve zu erstellen. Folgendes Diagramm wird dabei erstellt: ![docs/power_curve.png](Power Curve)
+Im source Ordner befindet sich die Datei [power_algorithm.py](src/power_algorithm.py). Diese Datei kann ausgeführt werden um eine Power-Curve zu erstellen. Folgendes Diagramm wird dabei erstellt: ![Power Curve](docs/power_curve.png)
